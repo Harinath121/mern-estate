@@ -86,10 +86,12 @@ export default function Profile() {
 
 
 
-        <input type="text" placeholder='username' id='username' className='border p-3 rounded-lg'/>
-        <input type="text" placeholder='email'id='email' className='border p-3 rounded-lg'/>
+        <input type="text" placeholder='username' defaultValue={currentUser.username} id='username' className='border p-3 rounded-lg'/>
+        <input type="text" placeholder='email' defaultValue={currentUser.email}  id='email' className='border p-3 rounded-lg'/>
 
-        <input type="text" placeholder='password' id='password' className='border p-3 rounded-lg'/>
+        <input type="text" placeholder='password' defaultValue={currentUser.password} id='password' className='border p-3 rounded-lg'/>
+        <input type="text" placeholder='phonenumber' defaultValue={currentUser.phonenumber} id='phoneneumber' className='border p-3 rounded-lg'/>
+
         <button className='bg-green-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>Update</button>
       </form>
       <div className='flex justify-between mt-5'>
