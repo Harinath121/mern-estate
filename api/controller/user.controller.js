@@ -10,7 +10,7 @@ export  const test= ((req,res)=>{
 
 export const updateUser = async (req,res,next)=>{
 
-    if(req.user.id!=req.params.id) return next(errorHandler(401,"you can update "));
+    if(req.user.id!=req.params.id) return next(errorHandler(401,"you can update only your profile "));
     try{
         if(req.body.password){
             req.body.password=bcryptjs.hashSync(req.body.password,10)
@@ -21,10 +21,11 @@ export const updateUser = async (req,res,next)=>{
                 //follow thw individual assisgning way not the whole data as user might not update all the data same time 
                 //better to practise in this way.
             $set:{
-                username:req.body.name,
+                username:req.body.username,
                 email:req.body.email,
                 password:req.body.password,
-                avatar:req.body.avatar
+                avatar:req.body.avatar,
+                phonenumber:req.body.phonenumber
 
             }
         },{new:true})  ;   //new :true returns the new updated data,iff this not mention then old data will be passed

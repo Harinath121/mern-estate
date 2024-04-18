@@ -25,12 +25,14 @@ const dispatch =useDispatch();
     })
   }
   console.log(formData);
+
+
   const handleSubmit=async (e)=>{
     e.preventDefault(); // this prevents to reload the page when submit is clicked, it simply performs the assigned opertaion without actuallyt refreshing the whole page.
     
     
     //Instead of using set loading below line we call redux function to store the state globally using userSlice function
-    setLoading(true);
+    
     //dispatch(signInStart());
 
 
@@ -39,7 +41,8 @@ const dispatch =useDispatch();
 
     try{ // this try is to handle the frontend error.
 
-    
+    // setLoading(true);
+    dispatch(signInStart());
     //check vite.config.js abouth the path in fetch
     //const res= await fetch('/api/auth/signup',formData); instead of directly passing the data we send it as stringformat and some aother parameters with that
 
@@ -53,30 +56,31 @@ const dispatch =useDispatch();
       
     });
     const data =await res.json();
+    console.log(data);
     if(data.success===false){
 
       //Instead of writing this we use signInFailure which we defined in userSlice.js whic is reducer so that we store the state globally
-       setLoading(false);
-       setError(data.message);
-      //dispatch(signInFailure(data.message));
+      //  setLoading(false);
+      //  setError(data.message);
+      dispatch(signInFailure(data.message));
        return;
     }
 
 
     //If the signin is successfull the we go for signINSuccess reducer which we defined in userSlice.js 
-    setLoading(false);
-    setError(null);
+    // setLoading(false);
+    // setError(null);
 
-    //dispatch(signInSuccess(data));
+    dispatch(signInSuccess(data));
 
-    console.log(data);
-    navigate('/profile');
+    
+    navigate('/');
     }catch(error){
-       setLoading(false);
-       setError(error.message);
+      //  setLoading(false);
+      //  setError(error.message);
       // Instewad of writing error for signin we use signInFailure
 
-      //dispatch(signInFailure(error.message));
+      dispatch(signInFailure(error.message));
 
     }
      
