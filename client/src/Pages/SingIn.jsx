@@ -8,11 +8,10 @@ import OAuth from '../components/OAuth';
 export default function SignIn() {
 
 const [formData,setFormData] = useState({});
- const [error,setError]=useState();
- const [loading,setLoading] = useState(false);
-// as we declared these varailbles as global in redux function i.e, userSlice and we created a Slice and named as user we just need to import and destructure it
 
-//const {error,loading}=useSelector((state)=>state.user);
+ //const [loading,setLoading] = useState(false);
+// as we declared these varailbles as global in redux function i.e, userSlice and we created a Slice and named as user we just need to import and destructure it
+const {error,loading}=useSelector((state)=>state.user);
 
 const navigate=useNavigate();
 const dispatch =useDispatch();
@@ -77,10 +76,11 @@ const dispatch =useDispatch();
     navigate('/');
     }catch(error){
       //  setLoading(false);
-      //  setError(error.message);
+        setError(error.message);
       // Instewad of writing error for signin we use signInFailure
 
       dispatch(signInFailure(error.message));
+
 
     }
      
@@ -104,7 +104,7 @@ const dispatch =useDispatch();
         <span className='text-blue-700 '>Sign Up</span>
       </Link>
     </div>
-      {error && <p className='text-red-500'>{error}</p>} 
+        <p className='text-red-700 mt-5'>{error?error:""}</p>
     </div>
     //error && ...: This is a conditional rendering pattern in JavaScript. It's shorthand for an "if" statement. 
     //It means if error is truthy (i.e., not null, undefined, 0, false, or an empty string), then the expression after && will be evaluated and returned; 
