@@ -7,7 +7,7 @@ export default function Header() {
   const {currentUser}= useSelector((state)=>state.user); //useSelector hook for selecting data from the Redux store state.
   //Here we should mention currentUser only that is what we defined in userslice
   // console.log("currentUser from header");
-  console.log(currentUser);
+  //console.log(currentUser);
   return (
     <header className='bg-slate-200 shadow-md '>
         <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
