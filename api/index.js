@@ -3,6 +3,7 @@ import  mongoose from "mongoose";
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
+ import listingRouter from './routes/listing.route.js'
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -31,6 +32,8 @@ app.use(express.json()); // to the req in the form of json
 app.use('/api/user',userRouter); // router from user.route.js is imported as userRouter
 
 app.use('/api/auth',authRouter);
+
+ app.use('/api/listing',listingRouter);
 
 
 
