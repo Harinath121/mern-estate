@@ -32,7 +32,7 @@ const dispatch =useDispatch();
     
     //Instead of using set loading below line we call redux function to store the state globally using userSlice function
     
-    //dispatch(signInStart());
+    dispatch(signInStart());
 
 
 
@@ -40,7 +40,7 @@ const dispatch =useDispatch();
 
     try{ // this try is to handle the frontend error.
 
-    // setLoading(true);
+    //setLoading(true);
     dispatch(signInStart());
     //check vite.config.js abouth the path in fetch
     //const res= await fetch('/api/auth/signup',formData); instead of directly passing the data we send it as stringformat and some aother parameters with that
@@ -76,7 +76,7 @@ const dispatch =useDispatch();
     navigate('/');
     }catch(error){
       //  setLoading(false);
-        setError(error.message);
+        //setError(error.message);
       // Instewad of writing error for signin we use signInFailure
 
       dispatch(signInFailure(error.message));
