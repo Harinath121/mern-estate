@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {getDownloadURL, getStorage, uploadBytesResumable,ref} from 'firebase/storage';
 import {app} from '../firebase'
 //import { current } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useParams} from 'react-router-dom';
 
-export default function CreateListing() {
+
+export default function UpdateTheListing() {
 
   const [formData,setFormData]=useState({
     imageUrls:[],
@@ -22,6 +23,7 @@ export default function CreateListing() {
     furnished:false,
 
   });
+
   const [files,setFiles] = useState(['']);
 
   const [imageUploadError,setImageUploadError] = useState(false);
@@ -36,10 +38,31 @@ export default function CreateListing() {
 
   const navigate=useNavigate();
 
+  const params = useParams();
+
   //console.log(files);
-  console.log(formData);
+  //console.log(formData);
+
+  useEffect (()=>{
+    const fetchListing = async ()=>{
+        const listingId = params.listingId;
+        const res = await fetch(`/api/listing/get/${listingId}`);
+
+        const data =await res.json();
+
+        if(data.success==false){
+            console.log(data.message);
+            return;
+        }
+        setFormData(data);
+       // console.log(formData);
+    };
+    fetchListing();
+
+  },[]);
 
   const handleImageSubmit = async (e)=>{
+    e.preventDefault(); 
 
     if(files?.length>0 && files?.length + formData.imageUrls?.length<7){
       setUploading(true);
@@ -143,7 +166,7 @@ export default function CreateListing() {
       if(+formData.regularPrice < +formData.discountPrice) return setError('Discounted price must be less than regular Price');
       setLoading(true);
       setError(false);
-      const res = await fetch('api/listing/create',{
+      const res = await fetch(`/api/listing/update/${params.listingId}`,{
         'method':'POST',
         headers:{
           'Content-Type':'application/json',
@@ -164,17 +187,18 @@ export default function CreateListing() {
         setError(error.message);
         return ;
       }
-      navigate('/');
+      navigate(`/listing/${data._id}`);
     }catch(error){
       setError(error.message);
       setLoading(false);
     }
+    
   }
  
 
   return (
     <main className='p-3 max-w-4xl mx-auto'>
-      <h1 className='text-3xl font-semibolad text-center my-7'>Create a Listing</h1>
+      <h1 className='text-3xl font-semibolad text-center my-7'>Update the Listing</h1>
       <form className='flex flex-col sm:flex-row gap-4' onSubmit={handleSubmit} >
         <div className='flex flex-col gap-4 flex-1'>
           <input type="text" placeholder='Name' className='border p-3 rounded-lg' id='name' onChange={handleChange} value={formData.name} maxLength='62' minLength='10' required/>
@@ -249,7 +273,7 @@ export default function CreateListing() {
              
           </div>
           <button disabled={loading||uploading} className='text-white bg-gray-700 rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80' >
-            {loading?'creating...':'Create listing'}
+            {loading?'updating...':'Update listing'}
           </button>
           {error && <p className='text-red-700 text-sm'>{error}</p>}
         </div>
